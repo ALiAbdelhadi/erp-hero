@@ -1,26 +1,68 @@
 @import "tailwindcss";
 
+/* Semantic tokens — values from DESIGN-BRIEF.md. Components use the Tailwind
+   names below (bg-bg, text-ink, bg-signal …), never raw values. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --bg: #d8d9d3;
+  --surface: #f3f3ef;
+  --ink: #15171a;
+  --muted: #676c71;
+  --rule: #bdbfb8;
+  --signal: #ffd60a;
+  --on-signal: #15171a;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg: #111314;
+    --surface: #1b1e20;
+    --ink: #ecede8;
+    --muted: #8e9398;
+    --rule: #2e3235;
+    --signal: #f5cd12;
+    --on-signal: #111314;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-signal: var(--signal);
+  --color-on-signal: var(--on-signal);
+
+  --font-display: var(--font-archivo);
+  --font-sans: var(--font-instrument);
+  --font-mono: var(--font-plex-mono);
+
+  --text-hero: clamp(3rem, 6.2vw, 6.75rem);
+  --text-hero--line-height: 0.9;
+  --text-hero--letter-spacing: -0.035em;
+}
+
+@layer base {
+  body {
+    background: var(--bg);
+    color: var(--ink);
+  }
+  ::selection {
+    background: var(--signal);
+    color: var(--on-signal);
+  }
+}
+
+/* Archivo's width axis is driven by --wdth so GSAP can tween it. */
+@utility font-stretchable {
+  font-variation-settings: "wdth" var(--wdth, 84);
+}
+
+/* Floor-marking tape: the one decorative device, used once. */
+@utility hazard {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--signal) 0 8px,
+    var(--ink) 8px 16px
+  );
 }
